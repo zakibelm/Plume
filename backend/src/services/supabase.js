@@ -5,12 +5,21 @@ const logger = require('../utils/logger');
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseServiceRoleKey) {
-  logger.warn('SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY not set — Supabase client will not work');
+const activeKey = supabaseServiceRoleKey && !supabaseServiceRoleKey.startsWith('REMPLACER')
+  ? supabaseServiceRoleKey
+  : supabaseAnonKey;
+
+if (!supabaseUrl || !activeKey) {
+  logger.warn('SUPABASE_URL ou clé Supabase non configurées — le client Supabase ne fonctionnera pas');
 }
 
-const supabase = createClient(supabaseUrl || '', supabaseServiceRoleKey || '', {
+if (!supabaseServiceRoleKey || supabaseServiceRoleKey.startsWith('REMPLACER')) {
+  logger.warn('SUPABASE_SERVICE_ROLE_KEY non configurée — utilisation de la clé anon (RLS actif, fonctionnalités backend limitées)');
+}
+
+const supabase = createClient(supabaseUrl || '', activeKey || '', {
   auth: {
     autoRefreshToken: false,
     persistSession: false,
