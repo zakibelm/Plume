@@ -26,9 +26,13 @@ echo "  ╚═╝     ╚══════╝ ╚═════╝ ╚═╝  
 echo "  Installation VPS → $DOMAIN"
 echo ""
 
-# ── Clés requises ─────────────────────────────────────────────────────────────
-read -rsp "→ SUPABASE_SERVICE_ROLE_KEY : " SUPABASE_SERVICE_ROLE_KEY; echo
-read -rsp "→ OPENROUTER_API_KEY        : " OPENROUTER_API_KEY; echo
+# ── Clés requises (lire depuis env si déjà définies) ─────────────────────────
+if [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+  read -rsp "→ SUPABASE_SERVICE_ROLE_KEY : " SUPABASE_SERVICE_ROLE_KEY; echo
+fi
+if [ -z "$OPENROUTER_API_KEY" ]; then
+  read -rsp "→ OPENROUTER_API_KEY        : " OPENROUTER_API_KEY; echo
+fi
 echo ""
 
 [ -z "$SUPABASE_SERVICE_ROLE_KEY" ] && die "SUPABASE_SERVICE_ROLE_KEY requis"
