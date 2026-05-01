@@ -15,16 +15,36 @@ const useAuthStore = create((set, get) => ({
   },
 
   signIn: async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) throw error
+    set({ session: data.session, user: data.user })
+    return data
+  },
+
+  signUp: async (email, password) => {
+    const { data, error } = await supabase.auth.signUp({ email, password })
+    if (error) throw error
+    return data
+  },
+
+  signInWithOAuth: async (provider) => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo: window.location.origin },
     })
     if (error) throw error
-    set({
-      session: data.session,
-      user: data.user,
+  },
+
+  resetPasswordForEmail: async (email) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
     })
-    return data
+    if (error) throw error
+  },
+
+  updatePassword: async (password) => {
+    const { error } = await supabase.auth.updateUser({ password })
+    if (error) throw error
   },
 
   signOut: async () => {

@@ -5,7 +5,10 @@ import useAuthStore from './store/authStore.js'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Layout from './components/Layout.jsx'
 
-import LoginPage       from './pages/LoginPage.jsx'
+import LoginPage          from './pages/LoginPage.jsx'
+import RegisterPage       from './pages/RegisterPage.jsx'
+import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
+import ResetPasswordPage  from './pages/ResetPasswordPage.jsx'
 import DashboardPage   from './pages/DashboardPage.jsx'
 import NewProjectPage  from './pages/NewProjectPage.jsx'
 import ProjectPage     from './pages/ProjectPage.jsx'
@@ -32,7 +35,10 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
+      <Route path="/login"           element={<LoginPage />} />
+      <Route path="/register"        element={<RegisterPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+      <Route path="/reset-password"  element={<ResetPasswordPage />} />
 
       <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
         <Route index element={<Navigate to="/dashboard" replace />} />
