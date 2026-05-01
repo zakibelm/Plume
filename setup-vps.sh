@@ -142,7 +142,7 @@ docker compose build --no-cache -q
 docker compose up -d
 sleep 5
 
-HEALTH=$(curl -s http://127.0.0.1:3001/health | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('status','?'))" 2>/dev/null || echo "?")
+HEALTH=$(curl -s http://127.0.0.1:4000/health | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('status','?'))" 2>/dev/null || echo "?")
 log "Backend health : $HEALTH"
 
 # ── Nginx ─────────────────────────────────────────────────────────────────────
