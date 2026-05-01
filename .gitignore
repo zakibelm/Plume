@@ -3,10 +3,13 @@ node_modules/
 .pnp
 .pnp.js
 
-# Environment variables
+# Environment variables (secrets — ne jamais committer)
 .env
 .env.local
-.env.production
+*.env.local
+
+# .env.production commité car ne contient que des clés publiques (anon Supabase)
+# La service_role_key et OPENROUTER_API_KEY restent dans .env sur le VPS
 
 # Build outputs
 dist/
