@@ -7,16 +7,16 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
-const activeKey = supabaseServiceRoleKey && !supabaseServiceRoleKey.startsWith('REMPLACER')
-  ? supabaseServiceRoleKey
-  : supabaseAnonKey;
+// Service role key must be a valid JWT (starts with eyJ). PATs (sb_secret_...) are not valid here.
+const isValidServiceKey = supabaseServiceRoleKey && supabaseServiceRoleKey.startsWith('eyJ');
+const activeKey = isValidServiceKey ? supabaseServiceRoleKey : supabaseAnonKey;
 
 if (!supabaseUrl || !activeKey) {
   logger.warn('SUPABASE_URL ou clé Supabase non configurées — le client Supabase ne fonctionnera pas');
 }
 
-if (!supabaseServiceRoleKey || supabaseServiceRoleKey.startsWith('REMPLACER')) {
-  logger.warn('SUPABASE_SERVICE_ROLE_KEY non configurée — utilisation de la clé anon (RLS actif, fonctionnalités backend limitées)');
+if (!isValidServiceKey) {
+  logger.warn('SUPABASE_SERVICE_ROLE_KEY invalide ou absente — utilisation de la clé anon (RLS actif)');
 }
 
 const supabase = createClient(supabaseUrl || '', activeKey || '', {

@@ -10,11 +10,11 @@ const MODELS = {
   },
   quality: {
     primary: 'google/gemini-flash-1.5',
-    fallback: 'meta-llama/llama-3.1-70b',
+    fallback: 'meta-llama/llama-3.1-70b-instruct',
   },
   validator: {
     primary: 'google/gemini-flash-1.5',
-    fallback: 'meta-llama/llama-3.1-8b',
+    fallback: 'meta-llama/llama-3.1-8b-instruct',
   },
   humanizer: {
     primary: 'mistralai/mistral-large',
